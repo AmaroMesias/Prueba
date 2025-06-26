@@ -1,0 +1,96 @@
+# Diccionario para almacenar los usuarios
+usuarios = {}
+
+# Función para validar si el nombre de usuario no está repetido
+def validar_nombre(nombre):
+    return nombre not in usuarios
+
+# Función para validar el sexo
+def validar_sexo(sexo):
+    return sexo.upper() in ['F', 'M']
+
+# Función para validar la contraseña
+def validar_contrasena(contrasena):
+    if len(contrasena) < 8:
+        return False
+    if " " in contrasena:
+        return False
+    if not any(c.isdigit() for c in contrasena):
+        return False
+    if not any(c.isalpha() for c in contrasena):
+        return False
+    return True
+
+# Función para ingresar un usuario
+def ingresar_usuario():
+    while True:
+        nombre = input("\nIngrese nombre de usuario:\n").strip()
+        if not validar_nombre(nombre):
+            print("\nUsuario ya existe. Intente otro.")
+        else:
+            break
+
+    while True:
+        sexo = input("\nIngrese sexo:\n").strip().upper()
+        if not validar_sexo(sexo):
+            print("\nDebe ingresar M o F solamente. Intente de nuevo.")
+        else:
+            break
+
+    while True:
+        contrasena = input("\nIngrese contraseña:\n")
+        if validar_contrasena(contrasena):
+            print("\nContraseña válida.")
+            break
+        else:
+            print("\nContraseña no válida. Intente otra.")
+
+    usuarios[nombre] = {'sexo': sexo, 'contrasena': contrasena}
+    print("\nUsuario ingresado con éxito!!")
+
+# Función para buscar un usuario
+def buscar_usuario():
+    nombre = input("\nIngrese usuario a buscar:\n").strip()
+    if nombre in usuarios:
+        datos = usuarios[nombre]
+        print(f"\nEl sexo del usuario es: {datos['sexo']} y la contraseña es: {datos['contrasena']}")
+    else:
+        print("\nUsuario no se encuentra.")
+
+# Función para eliminar un usuario
+def eliminar_usuario():
+    nombre = input("\nIngrese el nombre de usuario a eliminar:\n").strip()
+    if nombre in usuarios:
+        del usuarios[nombre]
+        print("\nUsuario eliminado!")
+    else:
+        print("\nNo se pudo eliminar usuario!")
+
+# Función para mostrar el menú
+def mostrar_menu():
+    print("\nMENU PRINCIPAL")
+    print("1.- Ingresar usuario.")
+    print("2.- Buscar usuario.")
+    print("3.- Eliminar usuario.")
+    print("4.- Salir.")
+
+# Función principal (main)
+def main():
+    while True:
+        mostrar_menu()
+        opcion = input("\nIngrese opción:\n").strip()
+
+        if opcion == '1':
+            ingresar_usuario()
+        elif opcion == '2':
+            buscar_usuario()
+        elif opcion == '3':
+            eliminar_usuario()
+        elif opcion == '4':
+            print("\nSaliendo del programa...")
+            break
+        else:
+            print("\nDebe seleccionar una opción válida.")
+
+# Ejecutar el programa
+main()
